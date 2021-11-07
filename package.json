@@ -1,6 +1,6 @@
 {
   "name": "directorease",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate a CLI from NextJS-like filesystem-based routing.",
   "repository": "https://github.com/davecalnan/directorease",
   "author": "Dave Calnan <d@ve.ie>",

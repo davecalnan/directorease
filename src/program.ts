@@ -76,7 +76,7 @@ export class Program {
          */
         if (currentPath.length === 0) return;
 
-        if (item.isFile() && item.name === "command.ts") {
+        if (item.isFile() && item.name.match(/command\.(j|t)s$/)) {
           this.registerCommand(
             await Command.fromFile({
               programPath: currentPath,
