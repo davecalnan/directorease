@@ -7,12 +7,20 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc --outDir dist --declaration --declarationDir ./types src/index.ts src/main.ts",
+    "watch": "yarn build --watch",
+    "prepublish": "yarn test && yarn build"
   },
   "bin": {
-    "directorease": "src/cli.ts"
+    "directorease": "./dist/main.js"
   },
-  "dependencies": {},
+  "exports": {
+    ".": {
+      "node": "./dist/index.js"
+    }
+  },
+  "types": "./types/index.d.ts",
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "jest": "^27.2.5",

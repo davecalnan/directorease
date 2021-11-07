@@ -2,6 +2,10 @@ import { CommandRunArgs } from "./command";
 
 const isOption = (arg: string) => arg.startsWith("-");
 
+const parseName = (optionName: string) => {
+  return optionName.replace(/^-+/, "");
+};
+
 const parseValue = (value: string): string | boolean => {
   if (value === "true") return true;
   if (value === "false") return false;
@@ -11,6 +15,12 @@ const parseValue = (value: string): string | boolean => {
 export const parseArgs = (commandArgs: string[]): CommandRunArgs => {
   const args: CommandRunArgs["args"] = [];
   const options: CommandRunArgs["options"] = {};
+
+  const addOption = (name: string, value: string | string[]) => {
+    options[parseName(name)] = Array.isArray(value)
+      ? value.map((value) => parseValue(value))
+      : parseValue(value);
+  };
 
   for (
     let currentIndex = 0;
@@ -23,9 +33,9 @@ export const parseArgs = (commandArgs: string[]): CommandRunArgs => {
     if (isOption(currentArg)) {
       const isOptionAndValue = currentArg.includes("=");
       if (isOptionAndValue) {
-        const [option, value] = currentArg.split("=");
+        const [name, value] = currentArg.split("=");
 
-        options[option] = parseValue(value);
+        addOption(name, value);
         continue;
       }
 
@@ -45,17 +55,19 @@ export const parseArgs = (commandArgs: string[]): CommandRunArgs => {
         currentIndex += numberOfValuesToAddToOption;
 
         if (numberOfValuesToAddToOption === 1) {
-          options[currentArg] = parseValue(remainingArgs[0]);
+          addOption(currentArg, remainingArgs[0]);
           continue;
         }
 
-        options[currentArg] = remainingArgs
-          .slice(0, numberOfValuesToAddToOption)
-          .map((value) => parseValue(value));
+        addOption(
+          currentArg,
+          remainingArgs.slice(0, numberOfValuesToAddToOption)
+        );
+
         continue;
       }
 
-      options[currentArg] = true;
+      addOption(currentArg, "true");
       continue;
     }
 

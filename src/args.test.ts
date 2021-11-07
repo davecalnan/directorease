@@ -29,16 +29,16 @@ it("should parse args and options correctly", () => {
   ).toMatchObject({
     args: ["arg1", "arg2"],
     options: {
-      "--implicitBooleanOption": true,
-      "--explicitEqualsTrueOption": true,
-      "--explicitTrueOption": true,
-      "--explicitEqualsFalseOption": false,
-      "--explicitFalseOption": false,
-      "-a": true,
-      "-b": "bee",
-      "--valueOption": "value",
-      "--middleCatchAllOption": ["1", "2", "3"],
-      "--endCatchAllOption": ["4", "5", "6"],
+      implicitBooleanOption: true,
+      explicitEqualsTrueOption: true,
+      explicitTrueOption: true,
+      explicitEqualsFalseOption: false,
+      explicitFalseOption: false,
+      a: true,
+      b: "bee",
+      valueOption: "value",
+      middleCatchAllOption: ["1", "2", "3"],
+      endCatchAllOption: ["4", "5", "6"],
     },
   });
 });

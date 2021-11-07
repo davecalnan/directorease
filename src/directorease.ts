@@ -1,11 +1,21 @@
-#!/usr/bin/env ts-node
-
-import path from "path";
-import fs from "fs/promises";
+import * as path from "path";
+import * as fs from "fs/promises";
 import { generateCLI } from "./program";
 
-(async () => {
-  let [, , originalBaseDirectory, ...args] = process.argv;
+export const directorease = async (directory: string) => {
+  const { originalBaseDirectory, args } = (() => {
+    if (typeof directory === "string") {
+      return {
+        originalBaseDirectory: directory,
+        args: process.argv.slice(2),
+      };
+    }
+
+    return {
+      originalBaseDirectory: process.argv[2],
+      args: process.argv.slice(3),
+    };
+  })();
 
   const baseDirectory = path.isAbsolute(originalBaseDirectory)
     ? originalBaseDirectory
@@ -24,4 +34,4 @@ import { generateCLI } from "./program";
 
   const cli = await generateCLI(baseDirectory);
   await cli.call(...args);
-})();
+};
